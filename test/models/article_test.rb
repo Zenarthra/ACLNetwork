@@ -4,11 +4,17 @@ require 'test_helper' #Requires the test helper in test models
 class ArticleTest < ActiveSupport::TestCase
   
   def setup #This is the intial conditions
-    @article = Article.new(name: "Random article", description: "This is a random article")  
+    @user = User.create!(author: "mashrur", email: "Michael@Hotmail.co.uk") #Add this after belongs to and has many
+    @article = @user.articles.build(name: "Random article", description: "This is a random article")  #Making the association between tables and build i used for that instead of new
   end
   
+  test "article without user should be invalid" do
+      @article.user_id = nil
+      assert_not @article.valid?
+    end
+  
   test "article should be valid" do #This is the name of the test and assertion type
-    assert @article.valid?
+    assert @article.valid? #When belongs to and has many are assigned, this test will fail because article depends on users, so we add user and make association in table in above setup
   end  
   
   test "name should be present" do

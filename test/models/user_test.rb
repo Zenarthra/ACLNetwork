@@ -28,22 +28,22 @@ class UserTest < ActiveSupport::TestCase
     end
     
     test "email should be present" do
-    @author.email = " "
-    assert_not @author.valid?
+    @user.email = " "
+    assert_not @user.valid?
   end
   
   test "email should not be too long" do
-    @author.email = "a" * 245 + "@example.com"
-    assert_not @author.valid?
+    @user.email = "a" * 245 + "@example.com"
+    assert_not @user.valid?
   end
   
   test "email should accept correct format" do
     valid_emails = %w[user@example.com MASHRUR@gmail.com M.first@yahoo.ca john+smith@co.uk.org] 
     #%w creates a word array seperated by white spaces
     valid_emails.each do |valids|
-      @author.email = valids
+      @user.email = valids
       #Loop and stores all above email address in the test database
-      assert @author.valid?, "#{valids.inspect} should be valid"
+      assert @user.valid?, "#{valids.inspect} should be valid"
       # #{valids.inspect} just converts the objcet into string representation and displays, this will output all of objects data , pw, id etc
     end
   end
@@ -51,26 +51,26 @@ class UserTest < ActiveSupport::TestCase
   test "should reject invalid addresses" do
     invalid_emails = %w[mashrur@example mashrur@example,com mashrur.name@gmail. joe@bar+foo.com]
     invalid_emails.each do |invalids|
-      @author.email = invalids
-      assert_not @author.valid?, "#{invalids.inspect} should be invalid"
+      @user.email = invalids
+      assert_not @user.valid?, "#{invalids.inspect} should be invalid"
     end
   end 
   
   test "email should be unique and case insensitive" do
-    duplicate_author = @author.dup
+    duplicate_author = @user.dup
     #created a duplicate of the object (uniqueness)
-    duplicate_author.email = @author.email.upcase
+    duplicate_author.email = @user.email.upcase
     #assigned duplicate email to object email uppercase (case insensitive)
-    @author.save
+    @user.save
     #see if save
     assert_not duplicate_author.valid?
   end
     
     test "email should be lower case before hitting db" do
   mixed_email = "JohN@ExampLe.com" #Email with uppercase letter
-  @chef.email = mixed_email #Assigned databse email to uppercase mixed email
-  @chef.save #save email to database
-  assert_equal mixed_email.downcase, @chef.reload.email #compares the 2 emails
+  @user.email = mixed_email #Assigned databse email to uppercase mixed email
+  @user.save #save email to database
+  assert_equal mixed_email.downcase, @user.reload.email #compares the 2 emails
 end
     
     
