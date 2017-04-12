@@ -1,0 +1,19 @@
+<h1 align="center">Listing all Articles</h1>
+<% @articles.each do |article| %> 
+  <div class="row">
+    <div class="col-md-2">
+      <section class="center">
+        
+      </section>
+    </div>
+    <div class="col-md-8 well">
+      <h4><%= article.name %></h4>
+      <p><%= truncate(article.description, length: 150) %></p>
+      <p>
+        <span class="quiet"><small>Created 
+
+        <%= time_ago_in_words(article.created_at) %> ago</small></span>
+      </p> 
+    </div>
+  </div>
+<% end %>
