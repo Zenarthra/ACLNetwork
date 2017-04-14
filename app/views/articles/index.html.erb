@@ -1,4 +1,5 @@
-<h1 align="center">Listing all Articles</h1>
+<%= render 'shared/page_title', title: "All articles" %>
+
 <% @articles.each do |article| %> 
   <div class="row">
     <div class="col-md-2">
@@ -7,7 +8,7 @@
       </section>
     </div>
     <div class="col-md-8 well">
-      <h4><%= article.name %></h4>
+      <h4><%= link_to article.name, article_path(article) %></h4>
       <p><%= truncate(article.description, length: 150) %></p>
       <p>
         <span class="quiet"><small>Created 

@@ -1,0 +1,19 @@
+<%= render 'shared/page_title', title: @article.name %>
+
+<div class="well col-md-8 col-md-offset-2">
+  <h4 class="center description"><strong>Description: </strong></h4>
+  <hr />
+  <%= @article.description %>
+  <hr />
+  <div class="pull-right">
+    <p class="center">
+      Created by:
+    </p>
+    <p>
+      <small><%= @article.user.author %></small>
+      <div class="pull-right">
+        <%= time_ago_in_words(@article.created_at) %> ago
+      </div>
+    </p>
+  </div>
+</div>
