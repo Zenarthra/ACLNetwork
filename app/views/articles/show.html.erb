@@ -1,19 +1,21 @@
-<%= render 'shared/page_title', title: @article.name %>
+
 
 <div class="well col-md-8 col-md-offset-2">
-  <h4 class="center description"><strong>Description: </strong></h4>
+  <la><%= render 'shared/page_title', title: @article.name %></la>
   <hr />
-  <%= @article.description %>
+  
+  <%= simple_format(@article.description) %>
   <hr />
   <div class="pull-right">
+    <createdby><p class="center">
+      <em>Created by:</em>
+    </p>
     <p class="center">
-      Created by:
+      <%= link_to gravatar_for(@article.user), article_path %>
     </p>
-    <p>
-      <small><%= @article.user.author %></small>
-      <div class="pull-right">
-        <%= time_ago_in_words(@article.created_at) %> ago
-      </div>
-    </p>
+    <p class="center">
+      <small><%= @article.user.author.capitalize %></small>
+      <div class="pull-right"><%= time_ago_in_words(@article.created_at) %> ago</div>
+    </p></createdby>
   </div>
 </div>
