@@ -1,19 +1,8 @@
 <ca><%= render 'shared/page_title', title: "All articles"%></ca>
-
-<% @articles.each do |article| %> 
-  <div class="row">
-    <div class="col-md-2">
-      
-    </div>
-    <div class="col-md-8 well">
-      <h4><%= link_to article.name, article_path(article) %></h4>
-      <p><%= truncate(article.description, length: 150) %></p>
-      </hr>
-      <p>
-        <span class="quiet"><small>Created by <%= article.user.author.capitalize %>
-
-        <%= time_ago_in_words(article.created_at) %> ago</small></span>
-      </p> 
-    </div>
-  </div>
-<% end %>
+<div align="center">
+  <%= will_paginate %>
+</div>
+<%= render 'articles/article', obj: @article %>
+<div align="center">
+  <%= will_paginate %>
+</div>

@@ -1,31 +1,85 @@
-
-
 <div class="well col-md-8 col-md-offset-2">
   <la><%= render 'shared/page_title', title: @article.name %></la>
   <hr />
   
   <%= simple_format(@article.description) %>
   <hr />
+  <% if @article.categories.any? %>
+        <p>Tags: <%= render @article.categories %></p>
+  <% end %>
+  
+  
+  
+  </br>
+  </br>
   <div class="pull-right">
     <createdby><p class="center">
       <em>Created by:</em>
     </p>
     <p class="center">
-      <%= link_to gravatar_for(@article.user), article_path %>
+      <%= link_to gravatar_for(@article.user), user_path(@article.user) %>
     </p>
+
     <p class="center">
-      <small><%= @article.user.author.capitalize %></small>
-      <div class="pull-right"><%= time_ago_in_words(@article.created_at) %> ago</div>
+      <small><%= @article.user.username %></small>
+      <div class="pull-right">: <%= time_ago_in_words(@article.created_at) %> ago</div>
     </p></createdby>
   </div>
   
   <div class="article-actions">
-  <%= link_to "Edit this article", edit_article_path(@article), 
-
-                                                class: 'btn btn-xs btn-warning' %>
-  <%= link_to "Delete this article", article_path(@article), method: :delete,
-                                    data: { confirm: "Are you sure you want to delete?" },
-                                    class: "btn btn-xs btn-danger" %>
-</div>  
+  <% if logged_in? && (current_user == @article.user || current_user.admin?) %>
+  <%= link_to "Edit this article", edit_article_path(@article), class: 'btn btn-xs btn-warning' %>
+  <%= link_to "Delete this article", article_path(@article), method: :delete, data: { confirm: "Are you sure you want to delete?" }, class: "btn btn-xs btn-danger" %>
+  <% end %>
+                                    
+  <%= link_to "Return to article listing", articles_path, class: "btn btn-xs btn-primary" %>
+  </div>  
+<hr />
   
 </div>
+
+<% if @article.comments != 0 %>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3>Comments: </h3>
+        <div id="messages">
+          <%= render partial: 'comments/comments', object: @comments %>
+        </div>
+    </div>
+  </div>
+<% else %>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3>No Comments Yet!</h3>
+    </div>
+  </div>
+<% end %>
+
+<% if logged_in? %>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <h3>Comments: </h3>
+      <hr />
+      <%= form_for([@article, @comment], :html => {class: "form-horizontal", 
+                                                role: "form"}) do |f| %>
+        <div class="form-group">
+          <div class="control-label col-md-2">
+            <%= f.label :description, "Comment" %>
+          </div>
+          <div class="col-md-8">
+            <%= f.text_area :description, rows: 8, class: "form-control", 
+                                      placeholder: "Enter Comment Here" %>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-offset-2 col-md-10">
+            <%= f.submit "Submit Comment", 
+                              class: "btn btn-primary btn-lg btn-xlarge" %>
+          </div>
+        </div>
+      <% end %>
+      <hr />
+    </div>
+  </div>
+<% end %>
+

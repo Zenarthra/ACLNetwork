@@ -3,19 +3,19 @@ require 'test_helper'
 class ArticlesTest < ActionDispatch::IntegrationTest
   
   def setup
-  @user = User.create!(author: "mashrur", email: "mashrur@example.com")
-  @article = Article.create(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", user: @user)
-  @article2 = @user.articles.build(name: "chicken saute", description: "great chicken dish")
-  @article2.save
+    @user = User.create!(author: "Michael", email: "mashrur@example.com", password: "password", password_confirmation: "password")
+    @article = Article.create!(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", user: @user)
+    @article2 = @user.articles.build(name: "chicken saute", description: "great chicken dish")
+    @article2.save
   end
   
   test "reject invalid article submissions" do
     get new_article_path
-    assert_template 'article/new'
+    assert_template 'articles/new'
     assert_no_difference 'Article.count' do
-          post article_path, params: { article: { name: " ", description: " " } } #post to article path with hash key and value
-      end
-    assert_template 'article/new'
+    post article_path, params: { Article: { name: " ", description: " " } } #post to article path with hash key and value
+  end
+    assert_template 'articles/new'
     assert_select 'h2.panel-title'
     assert_select 'div.panel-body'
   end
@@ -23,11 +23,11 @@ class ArticlesTest < ActionDispatch::IntegrationTest
   
    test "create new valid article" do
       get new_article_path
-      assert_template 'article/new'
+      assert_template 'articles/new'
       name_of_article = "Random article"
       description_of_article = "This is the description of the random article"
       assert_difference 'Article.count', 1 do
-          post article_path, params: { article: { name: name_of_article, description: description_of_article}}
+          post article_path, params: { Article: { name: name_of_article, description: description_of_article}}
       end
     
       follow_redirect!
@@ -42,6 +42,9 @@ class ArticlesTest < ActionDispatch::IntegrationTest
     assert_match @article.name, response.body #Check for the name of the article
     assert_match @article.description, response.body
     assert_match @user.author, response.body
+    assert_select 'a[href=?]', edit_article_path(@article), text: "Edit this article"
+    assert_select 'a[href=?]', article_path(@article), text: "Delete this article"
+    assert_select 'a[href=?]', articles_path, text: "Return to articles listing"
   end
 
   test "should get articles index" do

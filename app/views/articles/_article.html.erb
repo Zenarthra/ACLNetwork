@@ -1,0 +1,45 @@
+<% @articles.each do |article| %> 
+  <div class="row">
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-8 well">
+      <h4><%= link_to article.name, article_path(article) %></h4>
+      <p><%= truncate(article.description, length: 150) %></p>
+      
+      <% if article.categories.any? %>
+        <p>Tags: <%= render article.categories %></p>
+      <% end %>
+      
+      </hr>
+      
+      <p>
+        <span class="quiet"><small>Created 
+                  <%= time_ago_in_words(article.created_at) %> ago by: 
+                            <%= article.user.username.capitalize %> | 
+                    <%= pluralize(article.comments.count, 'Comment') %></small></span>
+      </p> 
+      
+      <button type="button" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-thumbs-up"></span> Upvote
+      </button>   <button type="button" class="btn btn-default btn-xs">
+                <span class="glyphicon glyphicon-thumbs-down"></span> Downvote
+      </button> 
+      <button type="button" class="btn btn-default btn-xs">
+      <span class="glyphicon glyphicon-bookmark"></span> Bookmark
+      </button> 
+      
+    
+      
+  <div class="article-actions">
+  <% if logged_in? && (current_user == article.user || current_user.admin?) %>
+  <hr />
+  <%= link_to "Edit this article", edit_article_path(article), class: 'btn btn-xs btn-warning' %>
+  <%= link_to "Delete this article", article_path(article), method: :delete, data: { confirm: "Are you sure you want to delete?" }, class: "btn btn-xs btn-danger" %>
+  
+  <% end %>
+
+    </div>  
+    </div>
+  </div>
+<% end %>

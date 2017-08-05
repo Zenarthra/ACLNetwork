@@ -3,8 +3,8 @@ require 'test_helper'
 class ArticlesEditTest < ActionDispatch::IntegrationTest
   
     def setup
-        @chef = Chef.create!(chefname: "mashrur", email: "mashrur@example.com")
-        @article = article.create(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", chef: @chef)
+        @user = User.create!(author: "mashrur", email: "mashrur@example.com", password: "newpassword", password_confirmation: "newpassword")
+        @article = Article.create(name: "vegetable saute", description: "great vegetable sautee, add vegetable and oil", user: @user)
     end
 
     test "reject invalid article update" do

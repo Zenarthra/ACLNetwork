@@ -4,7 +4,7 @@ require 'test_helper' #Requires the test helper in test models
 class ArticleTest < ActiveSupport::TestCase
   
   def setup #This is the intial conditions
-    @user = User.create!(author: "mashrur", email: "Michael@Hotmail.co.uk") #Add this after belongs to and has many
+    @user = User.create!(author: "mashrur", email: "Michael@Hotmail.co.uk", password: "newpassword", password_confirmation: "newpassword") #Add this after belongs to and has many
     @article = @user.articles.build(name: "Random article", description: "This is a random article")  #Making the association between tables and build i used for that instead of new
   end
   
@@ -32,8 +32,8 @@ class ArticleTest < ActiveSupport::TestCase
     assert_not @article.valid?
   end
   
-  test "description shouldn't be more than 500 characters" do
-    @article.description = "a" * 501
+  test "description shouldn't be more than 10000 characters" do
+    @article.description = "a" * 10001
     assert_not @article.valid?
   end
 end

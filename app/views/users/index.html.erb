@@ -1,0 +1,14 @@
+<center><%= render 'shared/page_title', title: "All users" %></center>
+<div align="center">
+
+  <% @user.each do |user| %>
+    <ul class="listing">
+          <%= link_to gravatar_for(user), user_path(user) %>
+          <li class="user-title"><%= link_to user.username, user_path(user) %></li>
+          <% if logged_in? and current_user.admin? && !user.admin %><li><%= link_to "Delete this user", user_path(user), method: :delete, 
+data: {confirm: "Are you sure you want to delete this user and all associated recipes?"} %></li><% end %>
+            <li><small><%= pluralize(user.articles.count, "Article") if user.articles %>
+        </small></li>
+    </ul>
+  <% end %>
+</div>

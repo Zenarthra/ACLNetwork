@@ -21,10 +21,15 @@ $navbar-default-bg: black;
   text-align: center;
 }
 
+
+
 .jumbotron {
-  background-image: asset-url('home2.png');
+  background-image: asset-url('scpulse.jpg');
   background-size: cover;
   height: 625px;
+  margin-top: 10px;
+ 
+ 
 }
 
 .jumbotron h1 {
@@ -84,4 +89,25 @@ createdby {
   a {
     color: #fff;
   }
+}
+
+.container{
+  
+  width: 100%;
+  margin-top: -10px;
+  
+}
+
+.listing {
+  list-style: none;
+  padding-left: 0;
+}
+.user-title {
+  color: #073B15;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.input_checkbox input {
+  width: auto !important;
 }
